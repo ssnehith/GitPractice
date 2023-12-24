@@ -1,0 +1,41 @@
+3
+
+There is one particular scenario where we cannot use throws, we have got to use try-catch. There is a rule "An overridden method cannot throw any extra exception other than what its parent class is throwing". If there is any extra exception that should be handled using try-catch. Consider this code snippet. There is a simple base class
+
+package trycatchvsthrows;
+
+public class Base {
+    public void show()
+    {
+        System.out.println("hello from base");
+    }
+}
+and it's derived class:
+
+package trycatchvsthrows;
+
+public class Derived extends Base {
+
+    @Override
+    public void show()   {
+        // TODO Auto-generated method stub
+        super.show();
+
+        Thread thread= new Thread();
+        thread.start();
+        try {
+            thread.sleep(100);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        // thread.sleep(10);
+        // here we can not use public void show() throws InterruptedException 
+        // not allowed
+    }
+}
+When we have to call thread.sleep() we are forced to use try-catch, here we can not use:
+
+ public void show() throws InterruptedException
+because overridden method can not throw extra exceptions.
